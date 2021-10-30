@@ -60,7 +60,24 @@ client.connect(err => {
         const result = await ordersCollection.deleteOne({ _id: ObjectId(id) });
         res.send(result)
     })
-
+    // Get Single Booking
+    app.get('/singleOrder/:id', (req, res) => {
+        ordersCollection.findOne({ _id: ObjectId(req.params.id) }).then(result => {
+            console.log(result);
+            res.send(result)
+        });
+    })
+    // Update Booking Status
+    app.put('/update/:id', (req, res) => {
+        const id = req.params.id;
+        const updatedInfo = req.body;
+        ordersCollection.updateOne({ _id: ObjectId(id) }, {
+            $set: {
+                status: updatedInfo.status,
+            }
+        })
+            .then(result => console.log(result))
+    })
 
     // client.close();
 });
