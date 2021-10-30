@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 client.connect(err => {
     const productCollection = client.db("goExplore").collection("packages");
     const blogCollection = client.db("goExplore").collection("blogs");
-    // const ordersCollection = client.db("goExplore").collection("orders");
+    const ordersCollection = client.db("goExplore").collection("orders");
 
     // Get All The Packages
     app.get('/packages', async (req, res) => {
@@ -41,8 +41,19 @@ client.connect(err => {
         res.send(result);
     })
 
+    // Post Booking Orders
+    app.post('/addOrders', (req, res) => {
+        console.log(req.body);
+        ordersCollection.insertOne(req.body).then((result) => {
+            res.send(result.insertedId);
+        })
+    })
 
-
+    // Get All Orders
+    app.get('/allOrders', async (req, res) => {
+        const result = await ordersCollection.find({}).toArray();
+        res.send(result);
+    })
 
 
     // client.close();
