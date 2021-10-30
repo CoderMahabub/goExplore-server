@@ -43,7 +43,6 @@ client.connect(err => {
 
     // Post Booking Orders
     app.post('/addOrders', (req, res) => {
-        console.log(req.body);
         ordersCollection.insertOne(req.body).then((result) => {
             res.send(result.insertedId);
         })
@@ -53,6 +52,13 @@ client.connect(err => {
     app.get('/allOrders', async (req, res) => {
         const result = await ordersCollection.find({}).toArray();
         res.send(result);
+    })
+
+    // Delete Single Booking
+    app.delete('/deleteBooking/:id', async (req, res) => {
+        const id = req.params.id;
+        const result = await ordersCollection.deleteOne({ _id: ObjectId(id) });
+        res.send(result)
     })
 
 
