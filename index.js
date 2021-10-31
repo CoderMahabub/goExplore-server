@@ -25,13 +25,13 @@ app.get('/', (req, res) => {
 
 // DB MAIN PART STARTS HERE
 client.connect(err => {
-    const productCollection = client.db("goExplore").collection("packages");
+    const packageCollection = client.db("goExplore").collection("packages");
     const blogCollection = client.db("goExplore").collection("blogs");
     const ordersCollection = client.db("goExplore").collection("orders");
 
     // Get All The Packages
     app.get('/packages', async (req, res) => {
-        const result = await productCollection.find({}).toArray();
+        const result = await packageCollection.find({}).toArray();
         res.send(result);
     })
 
@@ -78,6 +78,16 @@ client.connect(err => {
         })
             .then(result => console.log(result))
     })
+
+    // Post Single Package
+    app.post('/packages', (req, res) => {
+        console.log(req.body);
+        packageCollection.insertOne(req.body).then(result => {
+            res.send(result.insertedId);
+        })
+    })
+
+
 
     // client.close();
 });
