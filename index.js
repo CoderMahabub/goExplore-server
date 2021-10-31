@@ -60,6 +60,7 @@ client.connect(err => {
         const result = await ordersCollection.deleteOne({ _id: ObjectId(id) });
         res.send(result)
     })
+
     // Get Single Booking
     app.get('/singleOrder/:id', (req, res) => {
         ordersCollection.findOne({ _id: ObjectId(req.params.id) }).then(result => {
@@ -87,6 +88,12 @@ client.connect(err => {
         })
     })
 
+    // Delete Single Package
+    app.delete('/deletePackage/:id', async (req, res) => {
+        const id = req.params.id;
+        const result = await packageCollection.deleteOne({ _id: ObjectId(id) });
+        res.send(result)
+    })
 
 
     // client.close();
